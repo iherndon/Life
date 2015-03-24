@@ -1,3 +1,5 @@
+var sget = require('sget');
+
 var game = {
 
 };
@@ -148,58 +150,33 @@ rowEight = createRow(7);
 rowNine = createRow(8);
 rowTen = createRow(9);
 
-console.log("-----------------------------------")
-
-printBoard();
-
-iteration();
-
-for (cell in game){
-	game[cell].changeStatus();
-}
-for (cell in game){
-	game[cell].checkStatus();
-}
-
-rowOne = createRow(0);
-rowTwo = createRow(1);
-rowThree = createRow(2);
-rowFour = createRow(3);
-rowFive = createRow(4);
-rowSix = createRow(5);
-rowSeven = createRow(6);
-rowEight = createRow(7);
-rowNine = createRow(8);
-rowTen = createRow(9);
-
-console.log("-----------------------------------")
-
-printBoard();
-
-iteration();
-
-for (cell in game){
-	game[cell].changeStatus();
-}
-for (cell in game){
-	game[cell].checkStatus();
-}
-
-rowOne = createRow(0);
-rowTwo = createRow(1);
-rowThree = createRow(2);
-rowFour = createRow(3);
-rowFive = createRow(4);
-rowSix = createRow(5);
-rowSeven = createRow(6);
-rowEight = createRow(7);
-rowNine = createRow(8);
-rowTen = createRow(9);
-
-console.log("-----------------------------------")
-
-printBoard();
 
 
+
+
+	setInterval (function(){
+		printBoard();
+
+		iteration();
+
+		for (cell in game){
+			game[cell].changeStatus();
+		}
+
+		for (cell in game){
+			game[cell].checkStatus();
+		}
+
+		rowOne = createRow(0);
+		rowTwo = createRow(1);
+		rowThree = createRow(2);
+		rowFour = createRow(3);
+		rowFive = createRow(4);
+		rowSix = createRow(5);
+		rowSeven = createRow(6);
+		rowEight = createRow(7);
+		rowNine = createRow(8);
+		rowTen = createRow(9);
+		}, 1000);
 
 
