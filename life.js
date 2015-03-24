@@ -3,6 +3,8 @@ var sget = require('sget');
 var game = {
 
 };
+
+
 var rowOne = [];
 var rowTwo =[];
 var rowThree = [];
@@ -13,10 +15,22 @@ var rowSeven = [];
 var rowEight = [];
 var rowNine = [];
 var rowTen = [];
+var rowEleven = [];
+var rowTwelve = [];
+var rowThirteen = [];
+var rowFourteen = [];
+var rowFifteen = [];
+var rowSixteen = [];
+var rowSeventeen = [];
+var rowEighteen = [];
+var rowNineteen = [];
+var rowTwenty = [];
+
+var rows = [rowOne, rowTwo, rowThree, rowFour, rowFive, rowSix, rowSeven, rowEight, rowNine, rowTen];
 
 var board = {};
 
-var arr = [];
+
 
 function cell (display, isAlive, nextIt){
 	this.display = display;
@@ -29,38 +43,38 @@ function cell (display, isAlive, nextIt){
 		if (this.isAlive){
 			this.display = "0";
 		} else {
-			this.display = "-";
+			this.display = " ";
 		}
 	}
 }
 
-for (var i = 0; i < 200; i++){
-	game[i] = new cell("-", false, false);
+for (var i = 0; i < 400; i++){
+	game[i] = new cell(" ", false, false);
 }
-
 
 
 function printBoard(){
-	console.log(rowOne.join(''));
-	console.log(rowTwo.join(''));
-	console.log(rowThree.join(''));
-	console.log(rowFour.join(''));
-	console.log(rowFive.join(''));
-	console.log(rowSix.join(''));
-	console.log(rowSeven.join(''));
-	console.log(rowEight.join(''));
-	console.log(rowNine.join(''));
-	console.log(rowTen.join(''));
+	rows.forEach(function(item){
+		console.log(item.join(''));
+	})
 }
 
-function createRow(rowNum){
-	var tempArray = [];
-	for (cell in game){
-		if (cell >= rowNum * 20 && cell < rowNum * 20 + 20){
-			tempArray.push(game[cell].display);
-		}
+
+
+function createBoard(rowNum, colNum){
+	if(arguments.length === 1){
+		colNum = rowNum;
 	}
-	return tempArray
+	for (var i = 0; i < rowNum; i++){
+		var tempArray = [];
+		for (cell in game){
+			if (cell >= i * colNum && cell < i * colNum + colNum){
+				tempArray.push(game[cell].display);
+			}
+		}
+		rows.push(tempArray);
+	}
+	
 }
 
 function pusher(num, array){
@@ -76,17 +90,14 @@ function pusher(num, array){
 
 
 function iteration(){
-	// var tempArray1 = [];
 	for (cell in game){
-		var tempArray1 = [];
+		var tempArray = [];
 		var alive = 0;
-		pusher(20, tempArray1);
-		pusher(1, tempArray1);
-		pusher(19, tempArray1);
-		pusher(21, tempArray1);
-		// tempArray1.push(game[cell + 20], game[cell-20], game[cell + 1], game[cell - 1], game[cell - 19], game[cell + 19], game[cell - 21], game[cell + 21]);
-		// console.log(tempArray1);
-		tempArray1.forEach(function(item){
+		pusher(20, tempArray);
+		pusher(1, tempArray);
+		pusher(19, tempArray);
+		pusher(21, tempArray);
+		tempArray.forEach(function(item){
 			if (item.isAlive === true)
 				alive += 1;
 			});
@@ -99,10 +110,10 @@ function iteration(){
 		} else {
 			game[cell].nextIt = true;
 		}
-		// console.log(alive);
 	}
 }
 
+function setBoardToad (){
 game[70].isAlive = true;
 game[71].isAlive = true;
 game[72].isAlive = true;
@@ -110,45 +121,109 @@ game[89].isAlive = true;
 game[90].isAlive = true;
 game[91].isAlive = true;
 
+}
+
+function setBoardBeacon (){
+game[65].isAlive = true;
+game[66].isAlive = true;
+game[85].isAlive = true;
+game[108].isAlive = true;
+game[128].isAlive = true;
+game[127].isAlive = true;	
+
+}
+
+function setBoardPulsar (){
+	game[46].isAlive = true;
+	game[47].isAlive = true;
+	game[48].isAlive = true;
+	game[52].isAlive = true;
+	game[53].isAlive = true;
+	game[54].isAlive = true;
+	game[84].isAlive = true;
+	game[89].isAlive = true;
+	game[91].isAlive = true;
+	game[96].isAlive = true;
+	game[116].isAlive = true;
+	game[136].isAlive = true;
+	game[104].isAlive = true;
+	game[109].isAlive = true;
+	game[111].isAlive = true;
+	game[129].isAlive = true;
+	game[131].isAlive = true;
+	game[146].isAlive = true;
+	game[147].isAlive = true;
+	game[148].isAlive = true;
+	game[186].isAlive = true;
+	game[187].isAlive = true;
+	game[188].isAlive = true;
+	game[286].isAlive = true;
+	game[287].isAlive = true;
+	game[288].isAlive = true;
+	game[152].isAlive = true;
+	game[153].isAlive = true;
+	game[154].isAlive = true;
+	game[192].isAlive = true;
+	game[193].isAlive = true;
+	game[194].isAlive = true;
+	game[292].isAlive = true;
+	game[293].isAlive = true;
+	game[294].isAlive = true;	
+	game[124].isAlive = true;
+	game[204].isAlive = true;
+	game[224].isAlive = true;
+	game[244].isAlive = true;
+	game[216].isAlive = true;
+	game[236].isAlive = true;
+	game[256].isAlive = true;
+	game[209].isAlive = true;
+	game[211].isAlive = true;
+	game[231].isAlive = true;
+	game[251].isAlive = true;
+	game[229].isAlive = true;
+	game[249].isAlive = true;
+
+
+}
+
+function setBoardGliderGun (){
+
+}
+
+// setBoardToad();
+// setBoardGliderGun();
+setBoardPulsar();
+
 for (cell in game){
 	game[cell].checkStatus();
 }
 
-rowOne = createRow(0);
-rowTwo = createRow(1);
-rowThree = createRow(2);
-rowFour = createRow(3);
-rowFive = createRow(4);
-rowSix = createRow(5);
-rowSeven = createRow(6);
-rowEight = createRow(7);
-rowNine = createRow(8);
-rowTen = createRow(9);
+createBoard(20);
 
 
 
-printBoard();
+// printBoard();
 
-iteration();
+// iteration();
 
-for (cell in game){
-	game[cell].changeStatus();
-}
+// for (cell in game){
+// 	game[cell].changeStatus();
+// }
 
-for (cell in game){
-	game[cell].checkStatus();
-}
+// for (cell in game){
+// 	game[cell].checkStatus();
+// }
 
-rowOne = createRow(0);
-rowTwo = createRow(1);
-rowThree = createRow(2);
-rowFour = createRow(3);
-rowFive = createRow(4);
-rowSix = createRow(5);
-rowSeven = createRow(6);
-rowEight = createRow(7);
-rowNine = createRow(8);
-rowTen = createRow(9);
+// rowOne = createBoard(0);
+// rowTwo = createBoard(1);
+// rowThree = createBoard(2);
+// rowFour = createBoard(3);
+// rowFive = createBoard(4);
+// rowSix = createBoard(5);
+// rowSeven = createBoard(6);
+// rowEight = createBoard(7);
+// rowNine = createBoard(8);
+// rowTen = createBoard(9);
 
 
 
@@ -167,16 +242,7 @@ rowTen = createRow(9);
 			game[cell].checkStatus();
 		}
 
-		rowOne = createRow(0);
-		rowTwo = createRow(1);
-		rowThree = createRow(2);
-		rowFour = createRow(3);
-		rowFive = createRow(4);
-		rowSix = createRow(5);
-		rowSeven = createRow(6);
-		rowEight = createRow(7);
-		rowNine = createRow(8);
-		rowTen = createRow(9);
-		}, 1000);
+		createBoard(20);
+		}, 350);
 
 
