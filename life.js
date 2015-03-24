@@ -5,28 +5,7 @@ var game = {
 };
 
 
-var rowOne = [];
-var rowTwo =[];
-var rowThree = [];
-var rowFour = [];
-var rowFive = [];
-var rowSix = [];
-var rowSeven = [];
-var rowEight = [];
-var rowNine = [];
-var rowTen = [];
-var rowEleven = [];
-var rowTwelve = [];
-var rowThirteen = [];
-var rowFourteen = [];
-var rowFifteen = [];
-var rowSixteen = [];
-var rowSeventeen = [];
-var rowEighteen = [];
-var rowNineteen = [];
-var rowTwenty = [];
-
-var rows = [rowOne, rowTwo, rowThree, rowFour, rowFive, rowSix, rowSeven, rowEight, rowNine, rowTen];
+var rows = [];
 
 var board = {};
 
@@ -204,26 +183,6 @@ createBoard(20);
 
 // printBoard();
 
-// iteration();
-
-// for (cell in game){
-// 	game[cell].changeStatus();
-// }
-
-// for (cell in game){
-// 	game[cell].checkStatus();
-// }
-
-// rowOne = createBoard(0);
-// rowTwo = createBoard(1);
-// rowThree = createBoard(2);
-// rowFour = createBoard(3);
-// rowFive = createBoard(4);
-// rowSix = createBoard(5);
-// rowSeven = createBoard(6);
-// rowEight = createBoard(7);
-// rowNine = createBoard(8);
-// rowTen = createBoard(9);
 
 
 
