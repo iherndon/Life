@@ -13,9 +13,6 @@ var gameOfLife = {
 		})
 	},
 	createBoard: function(){
-		// if(arguments.length === 1){
-		// colNum = rowNum;
-		// }
 		for (var i = 0; i < this.rowNum; i++){
 			var tempArray = [];
 			for (cell in this.cells){
@@ -28,7 +25,7 @@ var gameOfLife = {
 	},
 	produceCells: function(){
 		for (var i = 0; i < this.rowNum * this.colNum; i++)
-			this.cells[i] = new cell("-", false, false);
+			this.cells[i] = new cell(" ", false, false);
 	},
 	pusher: function(){
 		var array = [];
@@ -84,7 +81,7 @@ var gameOfLife = {
 		gameOfLife.checkStatusAll();
 
 		gameOfLife.createBoard();
-		}, 350);
+		}, 150);
 	},
 	startGame: function(){
 		console.log("Which number do you like better '7' or '1'?")
@@ -93,10 +90,14 @@ var gameOfLife = {
 			this.colNum = 40;
 			this.produceCells();
 			setBoardGliderGun();
-		} else {
+		} else if (answer === '1') {
 			this.colNum = 20;
 			this.produceCells();
 			setBoardPulsar();
+		} else {
+			this.colNum = 20;
+			this.produceCells();
+			setBoardBeacon();
 		}
 		this.pusherNums.push(this.colNum, this.colNum - 1, this.colNum + 1);
 		this.checkStatusAll();
@@ -122,95 +123,32 @@ function cell (display, isAlive, nextIt){
 		if (this.isAlive){
 			this.display = "0";
 		} else {
-			this.display = "-";
+			this.display = " ";
 		}
 	}
 }
 
-// for (var i = 0; i < 400; i++){
-// 	game[i] = new cell(" ", false, false);
-// }
 
 
-// function printBoard(){
-// 	rows.forEach(function(item){
-// 		console.log(item.join(''));
-// 	})
-// }
+function setBoardToad (){
+gameOfLife.cells[70].isAlive = true;
+gameOfLife.cells[71].isAlive = true;
+gameOfLife.cells[72].isAlive = true;
+gameOfLife.cells[89].isAlive = true;
+gameOfLife.cells[90].isAlive = true;
+gameOfLife.cells[91].isAlive = true;
 
+}
 
+function setBoardBeacon (){
+gameOfLife.cells[65].isAlive = true;
+gameOfLife.cells[66].isAlive = true;
+gameOfLife.cells[85].isAlive = true;
+gameOfLife.cells[108].isAlive = true;
+gameOfLife.cells[128].isAlive = true;
+gameOfLife.cells[127].isAlive = true;	
 
-// function createBoard(rowNum, colNum){
-// 	if(arguments.length === 1){
-// 		colNum = rowNum;
-// 	}
-// 	for (var i = 0; i < rowNum; i++){
-// 		var tempArray = [];
-// 		for (cell in game){
-// 			if (cell >= i * colNum && cell < i * colNum + colNum){
-// 				tempArray.push(game[cell].display);
-// 			}
-// 		}
-// 		rows.push(tempArray);
-// 	}
-	
-// }
-
-// function pusher(num, array){
-// 	if (game[Number(cell) + num] !== undefined){
-// 		array.push(game[Number(cell)+num]);
-// 	}
-// 	if (game[Number(cell) - num] !== undefined){
-// 		array.push(game[Number(cell) - num]);
-// 	}
-// }
-
-
-
-
-// function iteration(){
-// 	for (cell in game){
-// 		var tempArray = [];
-// 		var alive = 0;
-// 		pusher(20, tempArray);
-// 		pusher(1, tempArray);
-// 		pusher(19, tempArray);
-// 		pusher(21, tempArray);
-// 		tempArray.forEach(function(item){
-// 			if (item.isAlive === true)
-// 				alive += 1;
-// 			});
-// 		if(game[cell].isAlive === true && (alive < 2 || alive > 3)) {
-// 			game[cell].nextIt = false;
-// 		} else if (game[cell].isAlive === false && alive === 3) {
-// 			game[cell].nextIt = true;
-// 		} else if (game[cell].isAlive === false){
-// 			game[cell].nextIt = false;
-// 		} else {
-// 			game[cell].nextIt = true;
-// 		}
-// 	}
-// }
-
-// function setBoardToad (){
-// game[70].isAlive = true;
-// game[71].isAlive = true;
-// game[72].isAlive = true;
-// game[89].isAlive = true;
-// game[90].isAlive = true;
-// game[91].isAlive = true;
-
-// }
-
-// function setBoardBeacon (){
-// game[65].isAlive = true;
-// game[66].isAlive = true;
-// game[85].isAlive = true;
-// game[108].isAlive = true;
-// game[128].isAlive = true;
-// game[127].isAlive = true;	
-
-// }
+}
 
 function setBoardPulsar (){
 	gameOfLife.cells[46].isAlive = true;
@@ -308,45 +246,5 @@ function setBoardGliderGun (){
 }
 
 
-// setBoardToad();
-// setBoardGliderGun();
-
-
-// setBoardPulsar();
-
-// function checkStatusAll(){
-// 	for (cell in game)
-// 	game[cell].checkStatus();
-// }
-// function changeStatusAll(){
-// 	for (cell in game){
-// 			game[cell].changeStatus();
-// 		}
-// }
-
-// checkStatusAll();
-
-// createBoard(20);
-
-
-
-// printBoard();
-
-
-
-
-
-
-	// setInterval (function(){
-	// 	printBoard();
-
-	// 	iteration();
-
-	// 	changeStatusAll();
-
-	// 	checkStatusAll();
-
-	// 	createBoard(20);
-	// 	}, 350);
 
 gameOfLife.startGame();
