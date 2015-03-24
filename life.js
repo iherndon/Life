@@ -177,6 +177,11 @@ function checkStatusAll(){
 	for (cell in game)
 	game[cell].checkStatus();
 }
+function changeStatusAll(){
+	for (cell in game){
+			game[cell].changeStatus();
+		}
+}
 
 checkStatusAll();
 
@@ -196,9 +201,7 @@ createBoard(20);
 
 		iteration();
 
-		for (cell in game){
-			game[cell].changeStatus();
-		}
+		changeStatusAll();
 
 		checkStatusAll();
 
