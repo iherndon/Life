@@ -173,9 +173,12 @@ function setBoardGliderGun (){
 // setBoardGliderGun();
 setBoardPulsar();
 
-for (cell in game){
+function checkStatusAll(){
+	for (cell in game)
 	game[cell].checkStatus();
 }
+
+checkStatusAll();
 
 createBoard(20);
 
@@ -197,9 +200,7 @@ createBoard(20);
 			game[cell].changeStatus();
 		}
 
-		for (cell in game){
-			game[cell].checkStatus();
-		}
+		checkStatusAll();
 
 		createBoard(20);
 		}, 350);
