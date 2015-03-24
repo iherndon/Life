@@ -6,6 +6,7 @@ var gameOfLife = {
 	rowNum: 20,
 	colNum: 0,
 	pusherNums: [1],
+	aliveIcons: ["\u25C8", "\u25A9"],
 
 	printBoard: function(){
 		this.rows.forEach(function(item){
@@ -121,7 +122,7 @@ function cell (display, isAlive, nextIt){
 	}
 	this.checkStatus = function(){
 		if (this.isAlive){
-			this.display = "0";
+			this.display = "\u25A9";
 		} else {
 			this.display = " ";
 		}
