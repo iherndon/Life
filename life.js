@@ -1,13 +1,113 @@
 var sget = require('sget');
 
-var game = {
+var gameOfLife = {
+	cells: {},
+	rows: [],
+	rowNum: 20,
+	colNum: 0,
+	pusherNums: [1],
 
-};
+	printBoard: function(){
+		this.rows.forEach(function(item){
+		console.log(item.join(''));
+		})
+	},
+	createBoard: function(){
+		// if(arguments.length === 1){
+		// colNum = rowNum;
+		// }
+		for (var i = 0; i < this.rowNum; i++){
+			var tempArray = [];
+			for (cell in this.cells){
+				if (cell >= i * this.colNum && cell < i * this.colNum + this.colNum){
+					tempArray.push(this.cells[cell].display);
+				}
+			}
+			this.rows.push(tempArray);
+		}	
+	},
+	produceCells: function(){
+		for (var i = 0; i < this.rowNum * this.colNum; i++)
+			this.cells[i] = new cell("-", false, false);
+	},
+	pusher: function(){
+		var array = [];
+		for (var i = 0; i < gameOfLife.pusherNums.length; i++){
+
+			if (gameOfLife.cells[Number(cell) + gameOfLife.pusherNums[i]] !== undefined){
+				array.push(this.cells[Number(cell) + gameOfLife.pusherNums[i]]);
+			}
+			if (gameOfLife.cells[Number(cell) - gameOfLife.pusherNums[i]] !== undefined){
+				array.push(gameOfLife.cells[Number(cell) - gameOfLife.pusherNums[i]]);
+			}
+		}
+		return array;
+	
+
+	},
+	iteration: function(){
+		for (cell in this.cells){
+			var alive = 0;
+			var tempArray = this.pusher();
+			tempArray.forEach(function(item){
+				if (item.isAlive === true)
+					alive += 1;
+				});
+			if(this.cells[cell].isAlive === true && (alive < 2 || alive > 3)) {
+				this.cells[cell].nextIt = false;
+			} else if (this.cells[cell].isAlive === false && alive === 3) {
+				this.cells[cell].nextIt = true;
+			} else if (this.cells[cell].isAlive === false){
+				this.cells[cell].nextIt = false;
+			} else {
+				this.cells[cell].nextIt = true;
+			}
+		}
+	},
+	checkStatusAll: function(){
+		for (cell in this.cells)
+			this.cells[cell].checkStatus();
+	},
+	changeStatusAll: function(){
+		for (cell in this.cells){
+			this.cells[cell].changeStatus();
+		}
+	},
+	runGameOnTimer: function(){
+		return setInterval (function(){
+		gameOfLife.printBoard();
+
+		gameOfLife.iteration();
+
+		gameOfLife.changeStatusAll();
+
+		gameOfLife.checkStatusAll();
+
+		gameOfLife.createBoard();
+		}, 350);
+	},
+	startGame: function(){
+		console.log("Which number do you like better '7' or '1'?")
+		var answer = sget().trim();
+		if (answer === "7"){
+			this.colNum = 40;
+			this.produceCells();
+			setBoardGliderGun();
+		} else {
+			this.colNum = 20;
+			this.produceCells();
+			setBoardPulsar();
+		}
+		this.pusherNums.push(this.colNum, this.colNum - 1, this.colNum + 1);
+		this.checkStatusAll();
+		this.createBoard();
+
+		this.runGameOnTimer();
+
+	}
+}
 
 
-var rows = [];
-
-var board = {};
 
 
 
@@ -22,170 +122,211 @@ function cell (display, isAlive, nextIt){
 		if (this.isAlive){
 			this.display = "0";
 		} else {
-			this.display = " ";
+			this.display = "-";
 		}
 	}
 }
 
-for (var i = 0; i < 400; i++){
-	game[i] = new cell(" ", false, false);
-}
+// for (var i = 0; i < 400; i++){
+// 	game[i] = new cell(" ", false, false);
+// }
 
 
-function printBoard(){
-	rows.forEach(function(item){
-		console.log(item.join(''));
-	})
-}
+// function printBoard(){
+// 	rows.forEach(function(item){
+// 		console.log(item.join(''));
+// 	})
+// }
 
 
 
-function createBoard(rowNum, colNum){
-	if(arguments.length === 1){
-		colNum = rowNum;
-	}
-	for (var i = 0; i < rowNum; i++){
-		var tempArray = [];
-		for (cell in game){
-			if (cell >= i * colNum && cell < i * colNum + colNum){
-				tempArray.push(game[cell].display);
-			}
-		}
-		rows.push(tempArray);
-	}
+// function createBoard(rowNum, colNum){
+// 	if(arguments.length === 1){
+// 		colNum = rowNum;
+// 	}
+// 	for (var i = 0; i < rowNum; i++){
+// 		var tempArray = [];
+// 		for (cell in game){
+// 			if (cell >= i * colNum && cell < i * colNum + colNum){
+// 				tempArray.push(game[cell].display);
+// 			}
+// 		}
+// 		rows.push(tempArray);
+// 	}
 	
-}
+// }
 
-function pusher(num, array){
-	if (game[Number(cell) + num] !== undefined){
-		array.push(game[Number(cell)+num]);
-	}
-	if (game[Number(cell) - num] !== undefined){
-		array.push(game[Number(cell) - num]);
-	}
-}
-
-
+// function pusher(num, array){
+// 	if (game[Number(cell) + num] !== undefined){
+// 		array.push(game[Number(cell)+num]);
+// 	}
+// 	if (game[Number(cell) - num] !== undefined){
+// 		array.push(game[Number(cell) - num]);
+// 	}
+// }
 
 
-function iteration(){
-	for (cell in game){
-		var tempArray = [];
-		var alive = 0;
-		pusher(20, tempArray);
-		pusher(1, tempArray);
-		pusher(19, tempArray);
-		pusher(21, tempArray);
-		tempArray.forEach(function(item){
-			if (item.isAlive === true)
-				alive += 1;
-			});
-		if(game[cell].isAlive === true && (alive < 2 || alive > 3)) {
-			game[cell].nextIt = false;
-		} else if (game[cell].isAlive === false && alive === 3) {
-			game[cell].nextIt = true;
-		} else if (game[cell].isAlive === false){
-			game[cell].nextIt = false;
-		} else {
-			game[cell].nextIt = true;
-		}
-	}
-}
 
-function setBoardToad (){
-game[70].isAlive = true;
-game[71].isAlive = true;
-game[72].isAlive = true;
-game[89].isAlive = true;
-game[90].isAlive = true;
-game[91].isAlive = true;
 
-}
+// function iteration(){
+// 	for (cell in game){
+// 		var tempArray = [];
+// 		var alive = 0;
+// 		pusher(20, tempArray);
+// 		pusher(1, tempArray);
+// 		pusher(19, tempArray);
+// 		pusher(21, tempArray);
+// 		tempArray.forEach(function(item){
+// 			if (item.isAlive === true)
+// 				alive += 1;
+// 			});
+// 		if(game[cell].isAlive === true && (alive < 2 || alive > 3)) {
+// 			game[cell].nextIt = false;
+// 		} else if (game[cell].isAlive === false && alive === 3) {
+// 			game[cell].nextIt = true;
+// 		} else if (game[cell].isAlive === false){
+// 			game[cell].nextIt = false;
+// 		} else {
+// 			game[cell].nextIt = true;
+// 		}
+// 	}
+// }
 
-function setBoardBeacon (){
-game[65].isAlive = true;
-game[66].isAlive = true;
-game[85].isAlive = true;
-game[108].isAlive = true;
-game[128].isAlive = true;
-game[127].isAlive = true;	
+// function setBoardToad (){
+// game[70].isAlive = true;
+// game[71].isAlive = true;
+// game[72].isAlive = true;
+// game[89].isAlive = true;
+// game[90].isAlive = true;
+// game[91].isAlive = true;
 
-}
+// }
+
+// function setBoardBeacon (){
+// game[65].isAlive = true;
+// game[66].isAlive = true;
+// game[85].isAlive = true;
+// game[108].isAlive = true;
+// game[128].isAlive = true;
+// game[127].isAlive = true;	
+
+// }
 
 function setBoardPulsar (){
-	game[46].isAlive = true;
-	game[47].isAlive = true;
-	game[48].isAlive = true;
-	game[52].isAlive = true;
-	game[53].isAlive = true;
-	game[54].isAlive = true;
-	game[84].isAlive = true;
-	game[89].isAlive = true;
-	game[91].isAlive = true;
-	game[96].isAlive = true;
-	game[116].isAlive = true;
-	game[136].isAlive = true;
-	game[104].isAlive = true;
-	game[109].isAlive = true;
-	game[111].isAlive = true;
-	game[129].isAlive = true;
-	game[131].isAlive = true;
-	game[146].isAlive = true;
-	game[147].isAlive = true;
-	game[148].isAlive = true;
-	game[186].isAlive = true;
-	game[187].isAlive = true;
-	game[188].isAlive = true;
-	game[286].isAlive = true;
-	game[287].isAlive = true;
-	game[288].isAlive = true;
-	game[152].isAlive = true;
-	game[153].isAlive = true;
-	game[154].isAlive = true;
-	game[192].isAlive = true;
-	game[193].isAlive = true;
-	game[194].isAlive = true;
-	game[292].isAlive = true;
-	game[293].isAlive = true;
-	game[294].isAlive = true;	
-	game[124].isAlive = true;
-	game[204].isAlive = true;
-	game[224].isAlive = true;
-	game[244].isAlive = true;
-	game[216].isAlive = true;
-	game[236].isAlive = true;
-	game[256].isAlive = true;
-	game[209].isAlive = true;
-	game[211].isAlive = true;
-	game[231].isAlive = true;
-	game[251].isAlive = true;
-	game[229].isAlive = true;
-	game[249].isAlive = true;
+	gameOfLife.cells[46].isAlive = true;
+	gameOfLife.cells[47].isAlive = true;
+	gameOfLife.cells[48].isAlive = true;
+	gameOfLife.cells[52].isAlive = true;
+	gameOfLife.cells[53].isAlive = true;
+	gameOfLife.cells[54].isAlive = true;
+	gameOfLife.cells[84].isAlive = true;
+	gameOfLife.cells[89].isAlive = true;
+	gameOfLife.cells[91].isAlive = true;
+	gameOfLife.cells[96].isAlive = true;
+	gameOfLife.cells[116].isAlive = true;
+	gameOfLife.cells[136].isAlive = true;
+	gameOfLife.cells[104].isAlive = true;
+	gameOfLife.cells[109].isAlive = true;
+	gameOfLife.cells[111].isAlive = true;
+	gameOfLife.cells[129].isAlive = true;
+	gameOfLife.cells[131].isAlive = true;
+	gameOfLife.cells[146].isAlive = true;
+	gameOfLife.cells[147].isAlive = true;
+	gameOfLife.cells[148].isAlive = true;
+	gameOfLife.cells[186].isAlive = true;
+	gameOfLife.cells[187].isAlive = true;
+	gameOfLife.cells[188].isAlive = true;
+	gameOfLife.cells[286].isAlive = true;
+	gameOfLife.cells[287].isAlive = true;
+	gameOfLife.cells[288].isAlive = true;
+	gameOfLife.cells[152].isAlive = true;
+	gameOfLife.cells[153].isAlive = true;
+	gameOfLife.cells[154].isAlive = true;
+	gameOfLife.cells[192].isAlive = true;
+	gameOfLife.cells[193].isAlive = true;
+	gameOfLife.cells[194].isAlive = true;
+	gameOfLife.cells[292].isAlive = true;
+	gameOfLife.cells[293].isAlive = true;
+	gameOfLife.cells[294].isAlive = true;	
+	gameOfLife.cells[124].isAlive = true;
+	gameOfLife.cells[204].isAlive = true;
+	gameOfLife.cells[224].isAlive = true;
+	gameOfLife.cells[244].isAlive = true;
+	gameOfLife.cells[216].isAlive = true;
+	gameOfLife.cells[236].isAlive = true;
+	gameOfLife.cells[256].isAlive = true;
+	gameOfLife.cells[209].isAlive = true;
+	gameOfLife.cells[211].isAlive = true;
+	gameOfLife.cells[231].isAlive = true;
+	gameOfLife.cells[251].isAlive = true;
+	gameOfLife.cells[229].isAlive = true;
+	gameOfLife.cells[249].isAlive = true;
 
 
 }
 
 function setBoardGliderGun (){
+	gameOfLife.cells[201].isAlive = true;
+	gameOfLife.cells[241].isAlive = true;
+	gameOfLife.cells[202].isAlive = true;
+	gameOfLife.cells[242].isAlive = true;
 
+	gameOfLife.cells[133].isAlive = true;
+	gameOfLife.cells[134].isAlive = true;
+	gameOfLife.cells[176].isAlive = true;
+	gameOfLife.cells[217].isAlive = true;
+	gameOfLife.cells[255].isAlive = true;
+	gameOfLife.cells[257].isAlive = true;
+	gameOfLife.cells[258].isAlive = true;
+	gameOfLife.cells[297].isAlive = true;
+	gameOfLife.cells[172].isAlive = true;
+	gameOfLife.cells[211].isAlive = true;
+	gameOfLife.cells[251].isAlive = true;
+	gameOfLife.cells[291].isAlive = true;
+	gameOfLife.cells[332].isAlive = true;
+	gameOfLife.cells[373].isAlive = true;
+	gameOfLife.cells[374].isAlive = true;
+	gameOfLife.cells[336].isAlive = true;
+
+	gameOfLife.cells[221].isAlive = true;
+	gameOfLife.cells[222].isAlive = true;
+	gameOfLife.cells[181].isAlive = true;
+	gameOfLife.cells[182].isAlive = true;
+	gameOfLife.cells[141].isAlive = true;
+	gameOfLife.cells[142].isAlive = true;
+	gameOfLife.cells[103].isAlive = true;
+	gameOfLife.cells[105].isAlive = true;
+	gameOfLife.cells[65].isAlive = true;
+	gameOfLife.cells[263].isAlive = true;
+	gameOfLife.cells[265].isAlive = true;
+	gameOfLife.cells[305].isAlive = true;
+
+	gameOfLife.cells[155].isAlive = true;
+	gameOfLife.cells[156].isAlive = true;
+	gameOfLife.cells[195].isAlive = true;
+	gameOfLife.cells[196].isAlive = true;
 }
+
 
 // setBoardToad();
 // setBoardGliderGun();
-setBoardPulsar();
 
-function checkStatusAll(){
-	for (cell in game)
-	game[cell].checkStatus();
-}
-function changeStatusAll(){
-	for (cell in game){
-			game[cell].changeStatus();
-		}
-}
 
-checkStatusAll();
+// setBoardPulsar();
 
-createBoard(20);
+// function checkStatusAll(){
+// 	for (cell in game)
+// 	game[cell].checkStatus();
+// }
+// function changeStatusAll(){
+// 	for (cell in game){
+// 			game[cell].changeStatus();
+// 		}
+// }
+
+// checkStatusAll();
+
+// createBoard(20);
 
 
 
@@ -196,16 +337,16 @@ createBoard(20);
 
 
 
-	setInterval (function(){
-		printBoard();
+	// setInterval (function(){
+	// 	printBoard();
 
-		iteration();
+	// 	iteration();
 
-		changeStatusAll();
+	// 	changeStatusAll();
 
-		checkStatusAll();
+	// 	checkStatusAll();
 
-		createBoard(20);
-		}, 350);
+	// 	createBoard(20);
+	// 	}, 350);
 
-
+gameOfLife.startGame();
