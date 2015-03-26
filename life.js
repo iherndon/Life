@@ -71,8 +71,9 @@ var gameOfLife = {
 			this.cells[cell].changeStatus();
 		}
 	},
-	runGameOnTimer: function(){
-		return setInterval (function(){
+	runGameOnInterval: function(repititions){
+		var x = 0;
+		var intervals = setInterval (function(){
 		gameOfLife.printBoard();
 
 		gameOfLife.iteration();
@@ -82,29 +83,37 @@ var gameOfLife = {
 		gameOfLife.checkStatusAll();
 
 		gameOfLife.createBoard();
+		x++;
+		if (x === repititions){
+			clearInterval(intervals);
+		}
 		}, 150);
 	},
 	startGame: function(){
 		console.log("Which number do you like better '7' or '1'?")
 		var answer = sget().trim();
+		var reps;
 		if (answer === "7"){
 			this.colNum = 40;
 			this.produceCells();
 			setBoardGliderGun();
+			reps = 85;
 		} else if (answer === '1') {
 			this.colNum = 20;
 			this.produceCells();
 			setBoardPulsar();
+			reps  = 21;
 		} else {
 			this.colNum = 20;
 			this.produceCells();
 			setBoardBeacon();
+			reps = 15;
 		}
 		this.pusherNums.push(this.colNum, this.colNum - 1, this.colNum + 1);
 		this.checkStatusAll();
-		this.createBoard();
+		this.createBoard();	
 
-		this.runGameOnTimer();
+		this.runGameOnInterval(reps);
 
 	}
 }
@@ -246,6 +255,63 @@ function setBoardGliderGun (){
 	gameOfLife.cells[196].isAlive = true;
 }
 
+function setBoardCross (){
+	gameOfLife.cells[95].isAlive = true;
+	gameOfLife.cells[135].isAlive = true;
+	gameOfLife.cells[175].isAlive = true;
+	gameOfLife.cells[215].isAlive = true;
+	gameOfLife.cells[255].isAlive = true;
+
+	gameOfLife.cells[415].isAlive = true;
+	gameOfLife.cells[455].isAlive = true;
+	gameOfLife.cells[495].isAlive = true;
+	gameOfLife.cells[535].isAlive = true;
+	gameOfLife.cells[575].isAlive = true;
+
+	
+	gameOfLife.cells[332].isAlive = true;
+	gameOfLife.cells[331].isAlive = true;
+	gameOfLife.cells[330].isAlive = true;
+	gameOfLife.cells[329].isAlive = true;
+	gameOfLife.cells[328].isAlive = true;
+	gameOfLife.cells[327].isAlive = true;
+	gameOfLife.cells[326].isAlive = true;
+	gameOfLife.cells[325].isAlive = true;
+	gameOfLife.cells[324].isAlive = true;
+	gameOfLife.cells[323].isAlive = true;
+
+	gameOfLife.cells[338].isAlive = true;
+	gameOfLife.cells[339].isAlive = true;
+	gameOfLife.cells[340].isAlive = true;
+	gameOfLife.cells[341].isAlive = true;
+	gameOfLife.cells[342].isAlive = true;
+	gameOfLife.cells[343].isAlive = true;
+	gameOfLife.cells[344].isAlive = true;
+	gameOfLife.cells[345].isAlive = true;
+	gameOfLife.cells[346].isAlive = true;
+	gameOfLife.cells[347].isAlive = true;
+
+	gameOfLife.cells[725].isAlive = true;
+	gameOfLife.cells[727].isAlive = true;
+	gameOfLife.cells[724].isAlive = true;
+	gameOfLife.cells[723].isAlive = true;
+	gameOfLife.cells[223].isAlive = true;
+	gameOfLife.cells[224].isAlive = true;
+	gameOfLife.cells[225].isAlive = true;
+	gameOfLife.cells[227].isAlive = true;
+
+	gameOfLife.cells[121].isAlive = true;
+	gameOfLife.cells[122].isAlive = true;
+	gameOfLife.cells[123].isAlive = true;
+	gameOfLife.cells[201].isAlive = true;
+	gameOfLife.cells[202].isAlive = true;
+	gameOfLife.cells[203].isAlive = true;
+
+
+
+
+
+}
 
 
 gameOfLife.startGame();
